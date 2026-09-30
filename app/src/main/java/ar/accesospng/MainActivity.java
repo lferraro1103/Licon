@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
     private SharedPreferences prefs;
     private ComponentName selected;
     private String appLabel = "";
-    private Bitmap png;
+    private Bitmap png, previewSource;
     private int scale = 85;
     private Button appButton, pngButton, createButton;
     private EditText label;
@@ -192,10 +192,10 @@ public class MainActivity extends Activity {
         return result;
     }
 
-    private Bitmap scaledIcon(int edge) { return scaledIcon(edge, 1f); }
-    private Bitmap scaledIcon(int edge, float canvasFraction) {
+    private Bitmap scaledIcon(int edge) { return renderIcon(png, scale, edge); }
+    static Bitmap renderIcon(Bitmap png, int scale, int edge) {
         Bitmap out = Bitmap.createBitmap(edge, edge, Bitmap.Config.ARGB_8888);
-        float ratio = (edge * canvasFraction * scale / 100f) / Math.max(png.getWidth(), png.getHeight());
+        float ratio = (edge * scale / 100f) / Math.max(png.getWidth(), png.getHeight());
         float w = png.getWidth() * ratio, h = png.getHeight() * ratio;
         new Canvas(out).drawBitmap(png, null, new RectF((edge-w)/2, (edge-h)/2, (edge+w)/2, (edge+h)/2), new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
         return out;
@@ -209,19 +209,48 @@ public class MainActivity extends Activity {
         try {
             android.content.pm.ActivityInfo info = getPackageManager().getActivityInfo(selected, 0);
             if (!info.enabled || !info.exported || !info.applicationInfo.enabled) { message("La app ya no está disponible. Seleccioná otra."); return; }
-            String id = UUID.randomUUID().toString();
-            Bitmap bitmap = scaledIcon(384);
-            try (OutputStream output = new FileOutputStream(new File(getFilesDir(), "widget-" + id + ".png"))) { bitmap.compress(Bitmap.CompressFormat.PNG, 100, output); }
-            PngWidgetProvider.store(this).edit().putString(id + ".component", selected.flattenToString()).putString(id + ".name", name).commit();
-            Bundle extras = new Bundle();
-            extras.putParcelable(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_PREVIEW, PngWidgetProvider.views(this, bitmap, selected, name, id.hashCode()));
-            Intent callback = new Intent(this, PinReceiver.class).setAction("ar.accesospng.WIDGET_PINNED").setData(Uri.parse("accesospng://widget/" + id)).putExtra("token", id);
-            int mutability = android.os.Build.VERSION.SDK_INT >= 31 ? PendingIntent.FLAG_MUTABLE : 0;
-            PendingIntent pending = PendingIntent.getBroadcast(this, 0, callback, PendingIntent.FLAG_UPDATE_CURRENT | mutability);
-            boolean accepted = manager.requestPinAppWidget(new ComponentName(this, PngWidgetProvider.class), extras, pending);
-            status.setText(accepted ? "Confirmá “Agregar” en el diálogo del launcher." : "El launcher rechazó la solicitud. Intentá de nuevo.");
-            saveDraft();
+            final String id = UUID.randomUUID().toString();
+            final String savedName = name;
+            final ComponentName savedComponent = selected;
+            final Bitmap source = png;
+            final int savedScale = scale;
+            final File file = new File(getFilesDir(), "widget-" + id + ".png");
+            busy = true; refresh(); status.setText("Preparando acceso…");
+            worker.execute(() -> {
+                try {
+                    Bitmap bitmap = renderIcon(source, savedScale, 384);
+                    try (OutputStream output = new FileOutputStream(file)) {
+                        if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)) throw new IOException("No se pudo guardar el icono.");
+                    }
+                    if (!PngWidgetProvider.store(this).edit().putString(id + ".component", savedComponent.flattenToString()).putString(id + ".name", savedName).commit()) throw new IOException("No se pudo guardar el acceso.");
+                    runOnUiThread(() -> {
+                        if (isDestroyed()) { discardPending(id, file); return; }
+                        busy = false; refresh();
+                        try {
+                            Bundle extras = new Bundle();
+                            extras.putParcelable(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_PREVIEW, PngWidgetProvider.views(this, bitmap, savedComponent, savedName, id.hashCode()));
+                            Intent callback = new Intent(this, PinReceiver.class).setAction("ar.accesospng.WIDGET_PINNED").setData(Uri.parse("accesospng://widget/" + id)).putExtra("token", id);
+                            int mutability = android.os.Build.VERSION.SDK_INT >= 31 ? PendingIntent.FLAG_MUTABLE : 0;
+                            PendingIntent pending = PendingIntent.getBroadcast(this, 0, callback, PendingIntent.FLAG_UPDATE_CURRENT | mutability);
+                            boolean accepted = manager.requestPinAppWidget(new ComponentName(this, PngWidgetProvider.class), extras, pending);
+                            if (!accepted) discardPending(id, file);
+                            status.setText(accepted ? "Confirmá “Agregar” en el diálogo del launcher." : "El launcher rechazó la solicitud. Intentá de nuevo.");
+                            saveDraft();
+                        } catch (RuntimeException e) { discardPending(id, file); message("No se pudo crear el acceso. Intentá de nuevo."); }
+                    });
+                } catch (IOException | RuntimeException e) {
+                    discardPending(id, file);
+                    runOnUiThread(() -> { if (!isDestroyed()) { busy = false; refresh(); message("No se pudo guardar el acceso. Intentá de nuevo."); } });
+                }
+            });
         } catch (Exception e) { message("No se pudo crear el acceso. Revisá que la app siga instalada e intentá de nuevo."); }
+    }
+
+    private void discardPending(String id, File file) {
+        worker.execute(() -> {
+            file.delete();
+            PngWidgetProvider.store(this).edit().remove(id + ".component").remove(id + ".name").apply();
+        });
     }
 
     private void refresh() {
@@ -232,7 +261,13 @@ public class MainActivity extends Activity {
     private void refreshPreview() {
         if (sizeLabel == null) return;
         sizeLabel.setText("3  ·  Tamaño del icono: " + scale + "%");
-        if (png != null) preview.setImageBitmap(scaledIcon(192)); else { preview.setImageResource(ar.accesospng.R.drawable.app_icon); preview.setAlpha(.5f); }
+        if (png != null) {
+            if (previewSource != png) { preview.setImageBitmap(png); previewSource = png; }
+            preview.setScaleX(scale / 100f); preview.setScaleY(scale / 100f);
+        } else {
+            previewSource = null; preview.setScaleX(1f); preview.setScaleY(1f);
+            preview.setImageResource(ar.accesospng.R.drawable.app_icon); preview.setAlpha(.5f);
+        }
         if (png != null) preview.setAlpha(1f);
     }
     private void saveDraft() {
@@ -251,4 +286,5 @@ public class MainActivity extends Activity {
     private TextWatcher watcher(Runnable callback) { return new TextWatcher() { public void beforeTextChanged(CharSequence s,int start,int count,int after) { } public void onTextChanged(CharSequence s,int start,int before,int count) { } public void afterTextChanged(Editable e) { callback.run(); } }; }
     private static class AppEntry { final String name; final ComponentName component; AppEntry(String n,ComponentName c) { name=n;component=c; } public String toString() { return name; } }
 }
+
 

@@ -2,7 +2,7 @@ plugins { id 'com.android.application' }
 android {
     namespace 'ar.accesospng'
     compileSdk 35
-    defaultConfig { applicationId 'ar.accesospng'; minSdk 26; targetSdk 35; versionCode 9; versionName '1.5'; testInstrumentationRunner project.findProperty('testRunner') ?: 'ar.accesospng.WidgetInstrumentation' }
+    defaultConfig { applicationId 'ar.accesospng'; minSdk 26; targetSdk 35; versionCode 10; versionName '1.5.1'; testInstrumentationRunner project.findProperty('testRunner') ?: 'ar.accesospng.WidgetInstrumentation' }
     testBuildType 'release'
     def signingFile = rootProject.file('signing.properties')
     if (signingFile.exists()) {
@@ -14,6 +14,7 @@ android {
     compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
     buildTypes { release { minifyEnabled false } }
 }
+
 
 
 

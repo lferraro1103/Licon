@@ -28,6 +28,9 @@ public class WidgetInstrumentation extends Instrumentation {
             try (OutputStream out = new FileOutputStream(fixture)) { icon.compress(Bitmap.CompressFormat.PNG,100,out); }
             Bitmap stored = android.graphics.BitmapFactory.decodeFile(fixture.getPath());
             check(Color.alpha(stored.getPixel(0,0)) == 0, "stored alpha");
+            Bitmap finalIcon = MainActivity.renderIcon(stored, 50, 384);
+            check(finalIcon.getWidth() == 384 && finalIcon.getHeight() == 384, "unchanged final resolution");
+            check(finalIcon.getPixel(192,192) == Color.RED && Color.alpha(finalIcon.getPixel(164,192)) == 0, "preserved content and scale");
             ComponentName settings = getTargetContext().getPackageManager().getLaunchIntentForPackage("com.android.settings").getComponent();
             RemoteViews remote = PngWidgetProvider.views(getTargetContext(), stored, settings, "Widget test", -998);
             runOnMainSync(() -> {
