@@ -116,10 +116,6 @@ public class MainActivity extends Activity {
         TextView limits = text("PNG transparente, sin marco ni insignia. Se agrega como un widget de 1×1 que abre la app.", 13, MUTED); limits.setPadding(0, dp(12), 0, dp(16)); body.addView(limits);
         createButton = button("Agregar al inicio"); createButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFB6A2FF)); createButton.setTextColor(BG); body.addView(createButton); createButton.setOnClickListener(v -> pin());
         status = text("Seleccioná una app y un PNG para empezar.", 13, MUTED); status.setPadding(0, dp(12), 0, 0); status.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE); body.addView(status);
-        Button clock = button("Widget de hora, fecha y clima"); body.addView(clock);
-        clock.setOnClickListener(v -> startActivity(new Intent(this, WeatherConfigActivity.class)));
-        Button searchBar = button("Barra Google del tema"); body.addView(searchBar);
-        searchBar.setOnClickListener(v -> startActivity(new Intent(this, SearchConfigActivity.class)));
         label.addTextChangedListener(watcher(() -> saveDraft()));
     }
 
@@ -255,3 +251,4 @@ public class MainActivity extends Activity {
     private TextWatcher watcher(Runnable callback) { return new TextWatcher() { public void beforeTextChanged(CharSequence s,int start,int count,int after) { } public void onTextChanged(CharSequence s,int start,int before,int count) { } public void afterTextChanged(Editable e) { callback.run(); } }; }
     private static class AppEntry { final String name; final ComponentName component; AppEntry(String n,ComponentName c) { name=n;component=c; } public String toString() { return name; } }
 }
+

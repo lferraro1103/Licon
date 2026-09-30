@@ -1,4 +1,4 @@
-package ar.accesospng;
+package ar.wigreen;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -35,4 +35,5 @@ public class WeatherInstrumentation extends Instrumentation {
         }catch(Throwable e){result.putString("stream","FAIL: "+e+"\n");finish(Activity.RESULT_CANCELED,result);}
     }
 }
+
 

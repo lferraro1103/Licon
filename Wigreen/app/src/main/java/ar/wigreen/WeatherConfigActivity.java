@@ -1,4 +1,4 @@
-package ar.accesospng;
+package ar.wigreen;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
@@ -50,7 +50,7 @@ public class WeatherConfigActivity extends Activity {
             if (!getSharedPreferences("weather", MODE_PRIVATE).contains("key")) { status.setText("Primero elegí una ubicación."); return; }
             AppWidgetManager m = AppWidgetManager.getInstance(this);
             if (m.isRequestPinAppWidgetSupported()) m.requestPinAppWidget(new ComponentName(this, ClockWeatherProvider.class), null, null);
-            else status.setText("Agregalo desde Widgets → Licon en tu pantalla de inicio.");
+            else status.setText("Agregalo desde Widgets → Wigreen en tu pantalla de inicio.");
         });
         status = text("", 14); box.addView(status);
         box.addView(text("Usa los datos de Samsung Clima (The Weather Channel cuando es su proveedor). Todo queda en el teléfono. Para refrescar datos antiguos, abrí Samsung Clima.", 13));
@@ -81,9 +81,11 @@ public class WeatherConfigActivity extends Activity {
                     WeatherJob.refresh(this);
                 });
             } catch (RuntimeException e) { runOnUiThread(() -> { if (!isDestroyed()) status.setText("No se pudo leer Samsung Clima."); }); }
-        },"Licon-cities").start();
+        },"Wigreen-cities").start();
     }
     private void showPreview() {
         preview.removeAllViews(); preview.addView(ClockWeatherProvider.views(this).apply(this, preview));
     }
 }
+
+

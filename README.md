@@ -23,23 +23,15 @@ El control de tamaño escala la imagen dentro de la celda. El launcher decide el
 
 Si actualizás desde la versión inicial «Accesos PNG», los accesos tradicionales antiguos conservan su insignia: borrarlos y crearlos nuevamente con Licon.
 
-## Widget de hora, fecha y clima
+## Wigreen: widgets en una app separada
 
-Desde Licon, tocá **Widget de hora, fecha y clima**, permití leer Samsung Clima, elegí una ubicación y agregá el widget. Tiene fondo transparente, verde oliva apagado y texto centrado. Al tocarlo podés cambiar la ubicación o abrir Samsung Clima con su botón.
+Desde la versión 1.5, Licon vuelve a dedicarse únicamente a iconos PNG. **Wigreen** es otra app, con identificador `ar.wigreen`, que incluye el reloj con fecha/clima y la barra Google en verde salvia. Su fuente está en [Wigreen](Wigreen/README.md) y su APK en Releases.
 
-Lee localmente el proveedor de Samsung Clima con el permiso `READ_DANGEROUS_PROVIDER`. Cuando Samsung usa The Weather Channel, muestra sus datos. No necesita clave de API ni permiso de Internet en Licon. La ubicación se agrega desde Samsung Clima; esa app se ocupa de actualizar el tiempo. Si el dato tiene más de una hora, Licon muestra «sin actualizar». Las ubicaciones son compartidas por los widgets de clima de Licon.
-
-Esta función requiere Samsung Clima y su proveedor compatible. La integración fue verificada en un Galaxy Z Fold 6 con Android 16; una actualización de Samsung puede cambiar la interfaz. En otros teléfonos los widgets PNG siguen funcionando.
-
-## Barra Google del tema
-
-Tocá **Barra Google del tema** en Licon y **Agregar barra al inicio**. El widget usa un fondo salvia suave, contorno oliva e iconos a juego. Abre Google, la búsqueda por texto, la búsqueda por voz y Google Lens. Necesita la app Google habilitada para voz y Lens. El botón de lupa abre la búsqueda normal de Google.
-
-Es un widget independiente: podés quitar la barra original de tu inicio y poner esta en su lugar. Se puede ajustar su ancho. No pide permisos de micrófono/cámara en Licon; esas funciones se ejecutan dentro de Google. No tiene actualizaciones periódicas ni servicio en segundo plano.
+Al actualizar Licon, sus accesos PNG conservan datos y widgets. Los widgets de clima y Google de versiones anteriores deben agregarse nuevamente desde Wigreen: Android no transfiere widgets entre paquetes. La ubicación se selecciona nuevamente en Wigreen.
 
 ## Privacidad
 
-- Licon no solicita Internet, no incluye anuncios ni cuentas. Samsung Clima utiliza su propia conexión para obtener el tiempo.
+- Licon no solicita permisos de Internet ni clima, no incluye anuncios ni cuentas.
 - No solicita permisos de almacenamiento: usa el selector de documentos de Android.
 - El PNG y el borrador se guardan localmente en el almacenamiento privado de la app.
 - Consulta solamente aplicaciones con una actividad de launcher; no solicita `QUERY_ALL_PACKAGES`.
@@ -103,6 +95,7 @@ Gato negro dentro de un círculo lila. El recurso Android es un `VectorDrawable`
 
 ## Versiones
 
+- **1.5:** separación de apps: Licon solo para iconos PNG; Wigreen para reloj/clima y barra Google.
 - **1.4:** barra de búsqueda Google con diseño salvia/oliva, búsqueda, voz y Lens.
 - **1.3:** widget transparente de hora, fecha y clima de Samsung, con verde oliva y contenido centrado; selección de ubicación y botón para abrir Samsung Clima.
 - **1.2 — Licon:** nuevo nombre e icono circular de gato.
@@ -110,5 +103,6 @@ Gato negro dentro de un círculo lila. El recurso Android es un `VectorDrawable`
 - **1.0:** primera versión con accesos directos tradicionales.
 
 El identificador `ar.accesospng` se conserva para que Licon actualice la instalación existente y mantenga los datos.
+
 
 

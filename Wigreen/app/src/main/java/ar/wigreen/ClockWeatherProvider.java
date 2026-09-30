@@ -1,4 +1,4 @@
-package ar.accesospng;
+package ar.wigreen;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -33,3 +33,5 @@ public class ClockWeatherProvider extends AppWidgetProvider {
         WeatherJob.refresh(c);
     }
 }
+
+

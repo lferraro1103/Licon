@@ -1,4 +1,4 @@
-package ar.accesospng;
+package ar.wigreen;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -33,3 +33,5 @@ final class SamsungWeather {
         return cities;
     }
 }
+
+

@@ -1,4 +1,4 @@
-package ar.accesospng;
+package ar.wigreen;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.pm.ResolveInfo;
@@ -23,3 +23,4 @@ public class SearchInstrumentation extends Instrumentation {
         result.putString("stream","PASS: Google, search, voice and Lens resolve to exported activities; RemoteViews renders; corners transparent.\n");finish(Activity.RESULT_OK,result);
     }catch(Throwable e){result.putString("stream","FAIL: "+e+"\n");finish(Activity.RESULT_CANCELED,result);}}
 }
+

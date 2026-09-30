@@ -1,4 +1,4 @@
-package ar.accesospng;
+package ar.wigreen;
 
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
@@ -32,8 +32,10 @@ public class WeatherJob extends JobService {
         ClockWeatherProvider.updateAll(c); return false;
     }
     @Override public boolean onStartJob(JobParameters params) {
-        new Thread(() -> { read(this); jobFinished(params, false); }, "Licon-weather").start();
+        new Thread(() -> { read(this); jobFinished(params, false); }, "Wigreen-weather").start();
         return true;
     }
     @Override public boolean onStopJob(JobParameters params) { return true; }
 }
+
+
