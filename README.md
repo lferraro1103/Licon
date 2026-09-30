@@ -23,9 +23,17 @@ El control de tamaño escala la imagen dentro de la celda. El launcher decide el
 
 Si actualizás desde la versión inicial «Accesos PNG», los accesos tradicionales antiguos conservan su insignia: borrarlos y crearlos nuevamente con Licon.
 
+## Widget de hora, fecha y clima
+
+Desde Licon, tocá **Widget de hora, fecha y clima**, permití leer Samsung Clima, elegí una ubicación y agregá el widget. Tiene fondo transparente, verde oliva apagado y texto centrado. Al tocarlo podés cambiar la ubicación o abrir Samsung Clima con su botón.
+
+Lee localmente el proveedor de Samsung Clima con el permiso `READ_DANGEROUS_PROVIDER`. Cuando Samsung usa The Weather Channel, muestra sus datos. No necesita clave de API ni permiso de Internet en Licon. La ubicación se agrega desde Samsung Clima; esa app se ocupa de actualizar el tiempo. Si el dato tiene más de una hora, Licon muestra «sin actualizar». Las ubicaciones son compartidas por los widgets de clima de Licon.
+
+Esta función requiere Samsung Clima y su proveedor compatible. La integración fue verificada en un Galaxy Z Fold 6 con Android 16; una actualización de Samsung puede cambiar la interfaz. En otros teléfonos los widgets PNG siguen funcionando.
+
 ## Privacidad
 
-- Funciona sin Internet, anuncios ni cuentas.
+- Licon no solicita Internet, no incluye anuncios ni cuentas. Samsung Clima utiliza su propia conexión para obtener el tiempo.
 - No solicita permisos de almacenamiento: usa el selector de documentos de Android.
 - El PNG y el borrador se guardan localmente en el almacenamiento privado de la app.
 - Consulta solamente aplicaciones con una actividad de launcher; no solicita `QUERY_ALL_PACKAGES`.
@@ -89,8 +97,10 @@ Gato negro dentro de un círculo lila. El recurso Android es un `VectorDrawable`
 
 ## Versiones
 
+- **1.3:** widget transparente de hora, fecha y clima de Samsung, con verde oliva y contenido centrado; selección de ubicación y botón para abrir Samsung Clima.
 - **1.2 — Licon:** nuevo nombre e icono circular de gato.
 - **1.1:** widgets transparentes sin insignias, conservando selección y tamaño.
 - **1.0:** primera versión con accesos directos tradicionales.
 
 El identificador `ar.accesospng` se conserva para que Licon actualice la instalación existente y mantenga los datos.
+
