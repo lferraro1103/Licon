@@ -25,7 +25,7 @@ Si actualizás desde la versión inicial «Accesos PNG», los accesos tradiciona
 
 ## Wigreen: widgets en una app separada
 
-Desde la versión 1.5, Licon vuelve a dedicarse únicamente a iconos PNG. **Wigreen** es otra app, con identificador `ar.wigreen`, que incluye el reloj con fecha/clima y la barra Google en verde salvia. Su fuente está en [Wigreen](Wigreen/README.md) y su APK en Releases.
+Desde la versión 1.5, Licon vuelve a dedicarse únicamente a iconos PNG. **Wigreen** es otra app, con identificador `ar.wigreen`, que incluye el reloj con fecha/clima y la barra Google en verde salvia. Su fuente está en [repositorio independiente de Wigreen](https://github.com/lferraro1103/Wigreen) y su APK en [sus Releases](https://github.com/lferraro1103/Wigreen/releases/latest).
 
 Al actualizar Licon, sus accesos PNG conservan datos y widgets. Los widgets de clima y Google de versiones anteriores deben agregarse nuevamente desde Wigreen: Android no transfiere widgets entre paquetes. La ubicación se selecciona nuevamente en Wigreen.
 
@@ -103,6 +103,7 @@ Gato negro dentro de un círculo lila. El recurso Android es un `VectorDrawable`
 - **1.0:** primera versión con accesos directos tradicionales.
 
 El identificador `ar.accesospng` se conserva para que Licon actualice la instalación existente y mantenga los datos.
+
 
 
 
