@@ -78,7 +78,7 @@ public class WeatherConfigActivity extends Activity {
                         });
                     }
                     status.setText(cities.isEmpty() ? "Agregá una ciudad en Samsung Clima y volvé acá." : "Elegí tu ubicación. La selección queda guardada.");
-                    WeatherJob.refresh(this);
+                    WeatherJob.storeCities(this, cities); showPreview();
                 });
             } catch (RuntimeException e) { runOnUiThread(() -> { if (!isDestroyed()) status.setText("No se pudo leer Samsung Clima."); }); }
         },"Wigreen-cities").start();
@@ -87,5 +87,6 @@ public class WeatherConfigActivity extends Activity {
         preview.removeAllViews(); preview.addView(ClockWeatherProvider.views(this).apply(this, preview));
     }
 }
+
 
 

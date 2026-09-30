@@ -29,11 +29,16 @@ public class WeatherInstrumentation extends Instrumentation {
                 if(!(root.findViewById(R.id.weather_clock) instanceof TextClock)) throw new AssertionError("live clock");
                 if(((TextView)root.findViewById(R.id.weather_clock)).getCurrentTextColor()!=0xFF687860) throw new AssertionError("sage palette");
             });
+            java.util.Map<String, ?> before = getTargetContext().getSharedPreferences("weather",0).getAll();
+            android.os.CancellationSignal stopped = new android.os.CancellationSignal(); stopped.cancel();
+            if (WeatherJob.read(getTargetContext(), stopped)) throw new AssertionError("canceled weather read");
+            if (!before.equals(getTargetContext().getSharedPreferences("weather",0).getAll())) throw new AssertionError("canceled job changed preferences");
             result.putString("stream","PASS: Samsung weather readable with declared permission; valid temperature/schema; live TextClock; transparent background; sage palette. No location data logged.\n");
             if(args!=null && "true".equals(args.getString("open"))) startActivitySync(new Intent(getTargetContext(),WeatherConfigActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             finish(Activity.RESULT_OK,result);
         }catch(Throwable e){result.putString("stream","FAIL: "+e+"\n");finish(Activity.RESULT_CANCELED,result);}
     }
 }
+
 
 

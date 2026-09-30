@@ -25,13 +25,15 @@ final class SamsungWeather {
     private static String text(Cursor c, String col) {
         int i = c.getColumnIndex(col); return i < 0 || c.isNull(i) ? "" : c.getString(i);
     }
-    static List<City> cities(Context c) {
+    static List<City> cities(Context c) { return cities(c, null); }
+    static List<City> cities(Context c, android.os.CancellationSignal cancel) {
         List<City> cities = new ArrayList<>();
-        try (Cursor rows = c.getContentResolver().query(URI, null, null, null, null)) {
+        try (Cursor rows = c.getContentResolver().query(URI, null, null, null, null, cancel)) {
             if (rows != null) while (rows.moveToNext()) cities.add(new City(rows));
         }
         return cities;
     }
 }
+
 
 
