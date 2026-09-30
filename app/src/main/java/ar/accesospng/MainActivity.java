@@ -118,6 +118,8 @@ public class MainActivity extends Activity {
         status = text("Seleccioná una app y un PNG para empezar.", 13, MUTED); status.setPadding(0, dp(12), 0, 0); status.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE); body.addView(status);
         Button clock = button("Widget de hora, fecha y clima"); body.addView(clock);
         clock.setOnClickListener(v -> startActivity(new Intent(this, WeatherConfigActivity.class)));
+        Button searchBar = button("Barra Google del tema"); body.addView(searchBar);
+        searchBar.setOnClickListener(v -> startActivity(new Intent(this, SearchConfigActivity.class)));
         label.addTextChangedListener(watcher(() -> saveDraft()));
     }
 

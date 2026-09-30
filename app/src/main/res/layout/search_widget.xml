@@ -1,0 +1,8 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="4dp" android:background="@android:color/transparent">
+<LinearLayout android:id="@+id/search_bar" android:layout_width="match_parent" android:layout_height="56dp" android:layout_gravity="center" android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="8dp" android:paddingRight="8dp" android:background="@drawable/search_pill">
+<ImageView android:id="@+id/search_google" android:layout_width="48dp" android:layout_height="match_parent" android:padding="7dp" android:src="@drawable/search_google" android:contentDescription="Abrir Google"/>
+<TextView android:id="@+id/search_space" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:contentDescription="Buscar en Google"/>
+<ImageView android:id="@+id/search_magnifier" android:layout_width="48dp" android:layout_height="match_parent" android:padding="11dp" android:src="@drawable/search_magnifier" android:contentDescription="Buscar en Google"/>
+<ImageView android:id="@+id/search_voice" android:layout_width="48dp" android:layout_height="match_parent" android:padding="11dp" android:src="@drawable/search_mic" android:contentDescription="Buscar por voz"/>
+<ImageView android:id="@+id/search_lens" android:layout_width="48dp" android:layout_height="match_parent" android:padding="11dp" android:src="@drawable/search_lens" android:contentDescription="Abrir Google Lens"/>
+</LinearLayout></FrameLayout>

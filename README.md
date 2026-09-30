@@ -31,6 +31,12 @@ Lee localmente el proveedor de Samsung Clima con el permiso `READ_DANGEROUS_PROV
 
 Esta función requiere Samsung Clima y su proveedor compatible. La integración fue verificada en un Galaxy Z Fold 6 con Android 16; una actualización de Samsung puede cambiar la interfaz. En otros teléfonos los widgets PNG siguen funcionando.
 
+## Barra Google del tema
+
+Tocá **Barra Google del tema** en Licon y **Agregar barra al inicio**. El widget usa un fondo salvia suave, contorno oliva e iconos a juego. Abre Google, la búsqueda por texto, la búsqueda por voz y Google Lens. Necesita la app Google habilitada para voz y Lens. El botón de lupa abre la búsqueda normal de Google.
+
+Es un widget independiente: podés quitar la barra original de tu inicio y poner esta en su lugar. Se puede ajustar su ancho. No pide permisos de micrófono/cámara en Licon; esas funciones se ejecutan dentro de Google. No tiene actualizaciones periódicas ni servicio en segundo plano.
+
 ## Privacidad
 
 - Licon no solicita Internet, no incluye anuncios ni cuentas. Samsung Clima utiliza su propia conexión para obtener el tiempo.
@@ -97,10 +103,12 @@ Gato negro dentro de un círculo lila. El recurso Android es un `VectorDrawable`
 
 ## Versiones
 
+- **1.4:** barra de búsqueda Google con diseño salvia/oliva, búsqueda, voz y Lens.
 - **1.3:** widget transparente de hora, fecha y clima de Samsung, con verde oliva y contenido centrado; selección de ubicación y botón para abrir Samsung Clima.
 - **1.2 — Licon:** nuevo nombre e icono circular de gato.
 - **1.1:** widgets transparentes sin insignias, conservando selección y tamaño.
 - **1.0:** primera versión con accesos directos tradicionales.
 
 El identificador `ar.accesospng` se conserva para que Licon actualice la instalación existente y mantenga los datos.
+
 
