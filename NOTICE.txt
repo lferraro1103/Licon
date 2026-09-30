@@ -1,0 +1,3 @@
+Required Notice: Copyright (c) 2026 lferraro1103 (https://github.com/lferraro1103)
+
+Los componentes de terceros mantienen sus propias licencias. El Gradle Wrapper y sus scripts son de Gradle y se distribuyen bajo Apache License 2.0; no quedan sujetos a la restricción no comercial de este proyecto.
